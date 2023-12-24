@@ -45,11 +45,13 @@ export const useAuthStore = create<AuthStore>(set => ({
 
         set({ isAuthenticated: true, user: userData })
         alert('로그인에 성공하였습니다!')
+        // 여기에서 페이지 이동을 호출하지 않음
       } else if (error) {
         console.error('로그인 실패:', error.message)
         localStorage.removeItem('userData')
         set({ isAuthenticated: false, user: null })
         alert('아이디 또는 비밀번호가 잘못되었습니다.') // 로그인 실패 시 알림
+        // 여기에서 페이지 이동을 호출하지 않음
       }
     } catch (error) {
       console.error('❌ Error:', error)
