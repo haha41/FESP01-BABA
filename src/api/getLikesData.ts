@@ -50,7 +50,7 @@ export const addFavorite = async (
   movie_id: string,
   user_id: string,
   text: string,
-  ott: string[],
+  ott: string,
   rating: number,
   movie_title: string,
   id: Number,

@@ -9,6 +9,7 @@ import styled from 'styled-components'
 import DarkModeToggleIcon from '@/components/DarkModeIcon'
 import { useAuthStore } from '@/store/useAuthStore'
 import AddUserIcon from '@/components/mypage/AddUserIcon'
+import logo from '@/assets/logo.svg'
 
 function Nav() {
   const { isAuthenticated } = useAuthStore()
@@ -24,7 +25,7 @@ function Nav() {
     <NavContain>
       <FLexbox>
         <Link to="/main">
-          <MainLogo>BABA</MainLogo>
+          <MainLogo src={logo} alt="" />
         </Link>
         <List>
           <Item>
@@ -137,7 +138,7 @@ const Wrapper = styled.div`
   }
 `
 
-const MainLogo = styled.h1`
+const MainLogo = styled.img`
   width: 103px;
   margin: 0 auto;
   margin-bottom: 40px;

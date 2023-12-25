@@ -22,7 +22,8 @@ interface SizeProps {
   $darkMode: boolean
 }
 
-interface DarkModeSelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
+export interface DarkModeSelectProps
+  extends SelectHTMLAttributes<HTMLSelectElement> {
   $darkMode?: boolean
 }
 

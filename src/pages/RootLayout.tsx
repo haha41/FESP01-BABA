@@ -44,7 +44,7 @@ const MainContainer = styled.main`
     align-items: normal;
     display: grid;
     grid-template-columns: 1fr 7fr 2fr;
-    gap: 35px;
+    /* gap: 35px; */
   }
 
   @media (min-width: 701px) and (max-width: 1030px) {
