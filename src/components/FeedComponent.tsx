@@ -247,7 +247,10 @@ function FeedComponent({ reviews }: { reviews: ReviewData[] }) {
                   <ContentTitle>{item.movie_title}</ContentTitle>
                 </ContentTitleSubWrapper>
                 <CommonDivWrapper>
-                  <StarIcon />
+                  {/* <StarIcon /> */}
+                  <StarIcon>
+                    <StartImg src={star} alt="" />
+                  </StarIcon>
                   <span>{item.rating}</span>
 
                   {loginUserId === item.user_id ? null : (
@@ -258,7 +261,9 @@ function FeedComponent({ reviews }: { reviews: ReviewData[] }) {
                         (like: IsLikedProps | null) =>
                           like && like.id === item.id
                       )}
-                    />
+                    >
+                      <img src={isLiked ? likefill : like} alt="" />
+                    </LikeIcon>
                   )}
                 </CommonDivWrapper>
               </ContentTitleWrapper>
@@ -290,7 +295,7 @@ const FeedSection = styled.section`
 export const StarIcon = styled.button`
   width: 22px;
   height: 22px;
-  background-image: url(${star});
+  /* background-image: url(${star}); */
   background-repeat: no-repeat;
   cursor: pointer;
   font-family: GmarketSans;
@@ -394,4 +399,8 @@ const ContentTitleSubWrapper = styled.div`
   align-items: center;
   justify-content: center;
   gap: 6px;
+`
+const StartImg = styled.img`
+  width: 22px;
+  height: 22px;
 `

@@ -53,11 +53,3 @@ const MainContainer = styled.main`
     grid-template-columns: 1fr 8.7fr 0.3fr;
   }
 `
-
-// const ResponsiveFake = styled(Fake)`
-//   display: none;
-
-//   @media (max-width: 700px) {
-//     display: block;
-//   }
-// `
