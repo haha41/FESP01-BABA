@@ -221,7 +221,7 @@ const Container = styled.section`
 const Wrapper = styled.div`
   position: relative;
   height: 550px;
-  width: 100%;
+  width: 86%;
   display: flex;
 
   @media (max-width: 700px) {

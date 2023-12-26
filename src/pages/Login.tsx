@@ -45,26 +45,24 @@ function Login() {
       [name]: value
     }))
   }
-
   const handleUserLogin = async (event: React.MouseEvent) => {
     event.preventDefault()
     try {
+      // login 함수를 await로 비동기 호출
       await login(formData.email, formData.password)
-      // 로그인 성공
-      navigate('/main')
+
+      // 로그인 성공 시 navigate 실행
+      // navigate('/main')
     } catch (error) {
       // 로그인 실패
-      if ((error as any)?.response && (error as any)?.response.status === 400) {
-        console.error('❌ 로그인 실패: 잘못된 사용자 정보')
-        // 실패 시 특별히 처리해야 하는 로직이 있다면 여기에 추가
-      } else {
-        console.error(`❌ Error: ${error}`)
-      }
+      console.error(`❌ Error: ${error}`)
+      // 실패 시 특별히 처리해야 하는 로직이 있다면 여기에 추가
     }
   }
 
   const handleGithubLogin = () => {
     gitHubLogin()
+    navigate('/main')
   }
 
   const handleLogOut = (event: React.MouseEvent) => {
