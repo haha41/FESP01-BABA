@@ -43,7 +43,19 @@ const StarRating = ({ onRatingChange, initialRating = 0 }: StarRatingProps) => {
           onClick={() => handleStarClick(index)}
           selected={index <= rating}
           $darkMode={$darkMode}
-        ></StarIcon>
+        >
+          <img
+            src={
+              index <= rating
+                ? $darkMode
+                  ? darkModeYellowStar
+                  : yellowStar
+                : $darkMode
+                  ? darkModeWhiteStar
+                  : whiteStar
+            }
+          />
+        </StarIcon>
       ))}
     </StarContainer>
   )
@@ -68,7 +80,7 @@ const StarIcon = styled.div<StarIconProps>`
     margin: 0 7px;
   }
 
-  ${props => css`
+  /* ${props => css`
     background-image: url(${props.selected
       ? props.$darkMode
         ? darkModeYellowStar
@@ -76,7 +88,7 @@ const StarIcon = styled.div<StarIconProps>`
       : props.$darkMode
         ? darkModeWhiteStar
         : whiteStar});
-  `}
+  `} */
 
   &:hover {
     transform: scale(1.2);
