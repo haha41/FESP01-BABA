@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import useThemeStore from '@/store/useThemeStore'
 import { usePopularDataStore } from '@/store/usePopularDataStore'
-import { useEffect } from 'react'
+import { SelectHTMLAttributes, useEffect } from 'react'
 import getPopularData from '@/api/getPopularData'
 import { movieGenres } from '@/utils/genresData'
 import { Link } from 'react-router-dom'
@@ -10,9 +10,9 @@ interface TextColorProps {
   $darkMode: boolean
 }
 
-// interface DarkModeSelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
-//   $darkMode?: boolean
-// }
+interface DarkModeSelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
+  $darkMode?: boolean
+}
 
 function SideBar() {
   const { populardata, setPopularData } = usePopularDataStore()
@@ -27,7 +27,11 @@ function SideBar() {
   }, [])
 
   return (
-    <SideBarWrapper>
+    <SideBarWrapper $darkMode={$darkMode}>
+      <style>
+        @import
+        url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@200;300;400;500;600;700;900&family=Playfair+Display:ital@1&display=swap');
+      </style>
       <Title>🍿 오늘의 추천 영화 🎬</Title>
       {populardata?.results.slice(0, 10).map((item, index) => (
         <SideContentWrapper key={item.id} to={`/info/${item.id}`}>
@@ -61,15 +65,17 @@ function SideBar() {
 
 export default SideBar
 
-const SideBarWrapper = styled.aside`
+const SideBarWrapper = styled.aside<DarkModeSelectProps>`
   display: flex;
   flex-direction: column;
   justify-content: start;
   align-items: start;
-
+  border-left: 0.5px solid #939393;
+  background-color: ${({ $darkMode }) => ($darkMode ? '#1E1E1E' : '#ffffff')};
   gap: 4px;
   width: 350px;
-  padding: 5px;
+  padding: 8px;
+  z-index: 1;
 
   @media (max-width: 1030px) {
     display: none;
@@ -83,6 +89,7 @@ const SideContentWrapper = styled(Link)`
   gap: 20px;
   text-decoration: none;
   color: black;
+  margin: 4px;
 `
 
 const ContentNumber = styled.span`

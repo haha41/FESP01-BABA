@@ -8,28 +8,6 @@ import tvingIcon from '@/assets/ottIcon/tving.jpeg'
 import watchaIcon from '@/assets/ottIcon/watchaIcon.png'
 import waveIcon from '@/assets/ottIcon/wavveIcon.png'
 
-// export const ottIcon = {
-//   ottData: [
-//     { ott: '애플티비', icon: appleTvIcon },
-//     { ott: '쿠팡플레이', icon: coupangPlayIcon },
-//     { ott: '디즈니플러스', icon: disneyIcon },
-//     { ott: '넷플릭스', icon: netflixIcon },
-//     { ott: '프라임티비', icon: primeTVIcon },
-//     { ott: '티빙', icon: tvingIcon },
-//     { ott: '왓챠', icon: watchaIcon },
-//     { ott: '웨이브', icon: waveIcon }
-//   ]
-// }
-// export const ottIcon = [
-//   { ott: '애플티비', icon: appleTvIcon },
-//   { ott: '쿠팡플레이', icon: coupangPlayIcon },
-//   { ott: '디즈니플러스', icon: disneyIcon },
-//   { ott: '넷플릭스', icon: netflixIcon },
-//   { ott: '프라임티비', icon: primeTVIcon },
-//   { ott: '티빙', icon: tvingIcon },
-//   { ott: '왓챠', icon: watchaIcon },
-//   { ott: '웨이브', icon: waveIcon }
-// ]
 export const ottIcon = {
   ottData: [
     { ott: '애플티비', icon: appleTvIcon },

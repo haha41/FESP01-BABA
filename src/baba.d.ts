@@ -45,11 +45,12 @@ interface ReviewsProps {
   movie_id: string
   movie_title: string
   nickname: string
-  ott: string[]
+  ott: string
   rating: number
   text: string
   updated_at: string | null
   user_id: string
+  ott_test?: string
 }
 interface ReviewData {
   created_at: string
@@ -61,7 +62,7 @@ interface ReviewData {
   movie_id: string
   movie_title: string
   nickname: string
-  ott: string[]
+  ott: string
   rating: number
   text: string
   updated_at: string | null

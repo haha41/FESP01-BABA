@@ -44,7 +44,9 @@ function Writing() {
   const [imgSrc, setImgSrc]: any = useState(null)
   const [defaultImg, setDefaultImg] = useState<string | null>('')
   const [image, setImage] = useState<File | null>(null)
-  const [selectedOtt, setSelectedOtt] = useState<string[]>([])
+  // const [selectedOtt, setSelectedOtt] = useState<string[]>([])
+  const [selectedOtt, setSelectedOtt] = useState<string>('')
+
   const [rating, setRating] = useState(0)
   const [text, setText] = useState('')
 
@@ -163,22 +165,8 @@ function Writing() {
 
   //# OTT 선택
   const handleCheck = (iconName: string) => {
-    setSelectedOtt([iconName])
+    setSelectedOtt(iconName)
   }
-
-  // const handleInputOtt = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   const inputOtt = event.target.value
-
-  //   setSelectedOtt(prevSelectedOtt => {
-  //     if (prevSelectedOtt.length === 0) {
-  //       return [inputOtt]
-  //     } else {
-  //       const newSelectedOtt = [...prevSelectedOtt]
-  //       newSelectedOtt[newSelectedOtt.length - 1] = inputOtt
-  //       return newSelectedOtt
-  //     }
-  //   })
-  // }
 
   //# 별점
   const handleRatingChange = (newRating: number) => {

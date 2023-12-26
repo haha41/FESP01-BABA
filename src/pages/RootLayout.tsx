@@ -44,7 +44,7 @@ const MainContainer = styled.main`
     align-items: normal;
     display: grid;
     grid-template-columns: 1fr 7fr 2fr;
-    gap: 35px;
+    /* gap: 35px; */
   }
 
   @media (min-width: 701px) and (max-width: 1030px) {
@@ -53,11 +53,3 @@ const MainContainer = styled.main`
     grid-template-columns: 1fr 8.7fr 0.3fr;
   }
 `
-
-// const ResponsiveFake = styled(Fake)`
-//   display: none;
-
-//   @media (max-width: 700px) {
-//     display: block;
-//   }
-// `

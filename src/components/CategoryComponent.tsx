@@ -22,7 +22,8 @@ interface SizeProps {
   $darkMode: boolean
 }
 
-interface DarkModeSelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
+export interface DarkModeSelectProps
+  extends SelectHTMLAttributes<HTMLSelectElement> {
   $darkMode?: boolean
 }
 
@@ -72,6 +73,7 @@ function CategoryComponent() {
   const { $darkMode } = useThemeStore()
   const [selectCategory, setSelectCategory] = useState('영화')
   const { movieGenresState, setMovieGenresState } = useGenresStore()
+  // const [circleButton, setCircleButton] = useState()
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const select = e.currentTarget.value
 
@@ -82,6 +84,7 @@ function CategoryComponent() {
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     const selectCategoryButton = e.currentTarget.nextElementSibling?.textContent
+    // const targetCircleButton = e.currentTarget.querySelector('div')
 
     if (selectCategory === '영화') {
       const filterCategory = movieGenres.genres.filter(
@@ -242,7 +245,7 @@ const CategroyList = styled.div<FontProps>`
   font-size: ${props => (props.fontSize ? props.fontSize : '14px')};
   margin-top: 10px;
 `
-const CategoryCircle = styled.div`
+const CategoryCircle = styled(motion.div)`
   height: 50px;
   width: 50px;
   border-radius: 20%;

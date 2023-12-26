@@ -14,8 +14,8 @@ import { useAuthStore } from '@/store/useAuthStore'
 import { getProfileImgUrl } from '@/api/profileImgApi'
 import { useBookmarkStore } from '@/store/useBookmarkStore'
 import { sortReviewDataByDate } from '@/utils/sortReviewDataByDate'
-// import { ottIcon } from '@/utils/ottIconData'
-// import { ottIcon } from '@/utils/ottIconData'
+import { ottIcon } from '@/utils/ottIconData'
+import defaultOtt from '@/assets/ottIcon/defaultOtt.svg'
 
 interface IsLikedProps {
   id: number
@@ -232,9 +232,25 @@ function FeedComponent({ reviews }: { reviews: ReviewData[] }) {
               />
 
               <ContentTitleWrapper>
-                <ContentTitle>{item.movie_title}</ContentTitle>
+                <ContentTitleSubWrapper>
+                  {
+                    <OttImg
+                      src={
+                        ottIcon.ottData.find(
+                          iconItem => iconItem.ott === item.ott
+                        )?.icon || defaultOtt
+                      }
+                      alt={`${item.ott} 아이콘`}
+                    />
+                  }
+
+                  <ContentTitle>{item.movie_title}</ContentTitle>
+                </ContentTitleSubWrapper>
                 <CommonDivWrapper>
-                  <StarIcon />
+                  {/* <StarIcon /> */}
+                  <StarIcon>
+                    <StartImg src={star} alt="" />
+                  </StarIcon>
                   <span>{item.rating}</span>
 
                   {loginUserId === item.user_id ? null : (
@@ -245,7 +261,9 @@ function FeedComponent({ reviews }: { reviews: ReviewData[] }) {
                         (like: IsLikedProps | null) =>
                           like && like.id === item.id
                       )}
-                    />
+                    >
+                      <img src={isLiked ? likefill : like} alt="" />
+                    </LikeIcon>
                   )}
                 </CommonDivWrapper>
               </ContentTitleWrapper>
@@ -270,13 +288,14 @@ export default FeedComponent
 const FeedSection = styled.section`
   display: flex;
   flex-flow: column;
-  margin-top: 26px;
+  margin-top: 4px;
+  overflow-x: hidden;
 `
 
 export const StarIcon = styled.button`
   width: 22px;
   height: 22px;
-  background-image: url(${star});
+  /* background-image: url(${star}); */
   background-repeat: no-repeat;
   cursor: pointer;
   font-family: GmarketSans;
@@ -308,14 +327,14 @@ const UserImage = styled.img`
   width: 36px;
   object-fit: cover;
   border-radius: 50%;
-  border: 1px solid black;
+  border: 1px solid #dedede;
 `
 const TextColor = styled.span<TextColorProps>`
   color: ${({ $darkMode }) => ($darkMode ? '#E0E0E0' : '#444444')};
   font-size: 14px;
 `
 const FeedImage = styled.img`
-  width: 310px;
+  width: 420px;
   border: 1px solid #dedede;
   display: block;
   margin: auto;
@@ -328,18 +347,20 @@ const FeedContent = styled.div`
   align-items: center;
 `
 const ContentWrapper = styled.div`
-  width: 360px;
+  width: 520px;
 `
 
 const ContentTitle = styled.span`
   font-weight: bold;
-  font-size: 20px;
+  font-size: 22px;
+  margin: auto 0;
+  vertical-align: text-bottom;
 `
 const ContentText = styled.p<TextColorProps>`
   text-align: left;
   color: ${({ $darkMode }) => ($darkMode ? '#E0E0E0' : '#444444')};
   margin: 0;
-  font-size: 12px;
+  font-size: 14px;
 `
 const ContentTitleWrapper = styled(CommonDivWrapper)`
   justify-content: space-between;
@@ -364,9 +385,22 @@ const CreateDate = styled.span<FontProps>`
 `
 const FeedContentSection = styled.div`
   margin: 12px 0;
-  padding: 10px;
+  padding: 9.5%;
   border-bottom: 0.5px solid #999999;
 `
-// const Line = styled.hr`
-//   border: 1px solid black;
-// `
+const OttImg = styled.img`
+  width: 30px;
+  height: 30px;
+  align-self: self-start;
+`
+
+const ContentTitleSubWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+`
+const StartImg = styled.img`
+  width: 22px;
+  height: 22px;
+`

@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react'
 import { useGenresStore } from '@/store/useGenresStore'
 import { getGenreReviewData, getReviewData } from '@/api/getReviewData'
 import GoingUpBtn from '@/components/GoingUpBtn'
+import FlowText from './../components/FlowText'
 
 function Main() {
   const [, setWindowWidth] = useState(window.innerWidth)
@@ -63,6 +64,10 @@ function Main() {
       <Wrapper>
         <CategoryComponent />
         {window.innerWidth < 1030 ? <RecommendContentsSection /> : ''}
+        <FlowWrapper>
+          <FlowText />
+        </FlowWrapper>
+
         {movieGenresStateId === undefined || reviews.length > 0 ? (
           <FeedComponent reviews={reviews} />
         ) : (
@@ -82,6 +87,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 22px;
+  overflow: hidden;
 `
 
 const MainPageTitle = styled.h1`
@@ -100,4 +106,10 @@ const NoDataNotice = styled.div`
   justify-content: center;
   align-items: center;
   height: 50%;
+`
+
+const FlowWrapper = styled.div`
+  max-width: 100%;
+  border-bottom: 0.5px solid #999999;
+  border-top: 0.5px solid #999999;
 `
