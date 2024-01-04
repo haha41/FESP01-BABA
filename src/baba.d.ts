@@ -41,7 +41,8 @@ interface ReviewsProps {
   genre_ids: number[]
   id: number
   img_url: string | null
-  likes: string
+  // likes: string
+  likes: string[]
   movie_id: string
   movie_title: string
   nickname: string
@@ -58,7 +59,8 @@ interface ReviewData {
   genre_ids: number[] // 추가
   id: number
   img_url: string | null
-  likes: string // 추가
+  // likes: string // 추가
+  likes: string[] // 추가
   movie_id: string
   movie_title: string
   nickname: string

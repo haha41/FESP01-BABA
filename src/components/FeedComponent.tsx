@@ -7,7 +7,6 @@ import userInfoInLs from '@/utils/userInfoInLs'
 import { FontProps } from './CategoryComponent'
 import { addFavorite } from '@/api/getLikesData'
 import likefill from '@/assets/HeartIconFill.svg'
-import { supabase } from '@/utils/supabaseClient'
 import useThemeStore from '../store/useThemeStore'
 import { useEffect, useRef, useState } from 'react'
 import { useAuthStore } from '@/store/useAuthStore'
@@ -38,6 +37,8 @@ type LikeIconProps = {
 /* -------------------------------------------------------------------------- */
 
 function FeedComponent({ reviews }: { reviews: ReviewData[] }) {
+  console.log('reviews: ', reviews)
+
   const { $darkMode } = useThemeStore()
   const { bookmarkList, setBookmarkList, deleteBookmarkList } =
     useBookmarkStore()
@@ -60,50 +61,29 @@ function FeedComponent({ reviews }: { reviews: ReviewData[] }) {
 
   //# 전체 리뷰 가져오기
   useEffect(() => {
-    const loadReviewData = async () => {
-      try {
-        const { data: reviewData, error: reviewError } = await supabase
-          .from('reviews')
-          .select()
+    const sortedReviewData = sortReviewDataByDate(reviews)
 
-        if (reviewError) {
-          throw new Error('Failed to fetch review data')
-        }
+    // 내가 누른 좋아요
+    const myLikes: IsLikedProps[] = sortedReviewData
+      .map(item => ({
+        id: item.id,
+        likes: item.likes
+      }))
+      .filter(entry => {
+        const likesArray = entry.likes || []
+        const loginUserIdLiked = likesArray.includes(loginUserId as string)
+        return (
+          entry.likes !== null && Array.isArray(entry.likes) && loginUserIdLiked
+        )
+      })
 
-        // 데이터의 날짜를 최신 순서부터 오래된 순서로 나열합니다.
-        const sortedReviewData = sortReviewDataByDate(reviewData)
-        // updateReviewData(sortedReviewData);
+    setIsLikReviews(myLikes)
 
-        // 내가 누른 좋아요
-        const myLikes: IsLikedProps[] = sortedReviewData
-          .map(item => ({
-            id: item.id,
-            likes: item.likes
-          }))
-          .filter(entry => {
-            const likesArray = entry.likes || []
-            const loginUserIdLiked = likesArray.includes(loginUserId as string)
-            return (
-              entry.likes !== null &&
-              Array.isArray(entry.likes) &&
-              loginUserIdLiked
-            )
-          })
+    const myLikesIdArray = myLikes.map(item => item.id)
+    setMyLikesId(myLikesIdArray)
 
-        setIsLikReviews(myLikes)
-
-        const myLikesIdArray = myLikes.map(item => item.id)
-        setMyLikesId(myLikesIdArray)
-
-        const usersId = sortedReviewData.map(data => data.user_id)
-        setUsersId(usersId)
-      } catch (err) {
-        console.error(err)
-        return null
-      }
-    }
-
-    loadReviewData()
+    const usersId = sortedReviewData.map(data => data.user_id)
+    setUsersId(usersId)
   }, [isLiked])
 
   const fetchAndRenderProfileImg = async () => {
@@ -146,15 +126,7 @@ function FeedComponent({ reviews }: { reviews: ReviewData[] }) {
       return
     }
 
-    const movieId = item.movie_id
-    const userId = item.user_id
-    const text = item.text
-    const ott = item.ott
-    const rating = item.rating
-    const title = item.movie_title
-    const id = item.id // 리뷰 아이디
-
-    const checkMyLikesId = myLikesId.filter(reviewId => reviewId === id)
+    const checkMyLikesId = myLikesId.filter(reviewId => reviewId === item.id)
 
     const targetLikes = isLikeReviews
       ?.filter(item => checkMyLikesId.includes(item.id))
@@ -170,14 +142,13 @@ function FeedComponent({ reviews }: { reviews: ReviewData[] }) {
       deleteBookmarkList(loginUserId)
 
       await addFavorite(
-        movieId,
-        userId,
-        text,
-        ott,
-        rating,
-        title,
-        id,
-        // newBookmarkList,
+        item.movie_id,
+        item.user_id,
+        item.text,
+        item.ott,
+        item.rating,
+        item.movie_title,
+        item.id,
         loginUserId
       )
     } else {
@@ -185,14 +156,13 @@ function FeedComponent({ reviews }: { reviews: ReviewData[] }) {
       setBookmarkList(newBookmarkList)
 
       await addFavorite(
-        movieId,
-        userId,
-        text,
-        ott,
-        rating,
-        title,
-        id,
-        // newBookmarkList,
+        item.movie_id,
+        item.user_id,
+        item.text,
+        item.ott,
+        item.rating,
+        item.movie_title,
+        item.id,
         loginUserId
       )
     }
