@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import star from '@/assets/StarIcon.svg'
 import like from '@/assets/HeartIcon.svg'
-import userImage from '@/assets/userIcon.png'
+import userImage from '@/assets/icon/User.png'
 import { useNavigate } from 'react-router-dom'
 import userInfoInLs from '@/utils/userInfoInLs'
 import { FontProps } from './CategoryComponent'
@@ -12,7 +12,6 @@ import { useEffect, useRef, useState } from 'react'
 import { useAuthStore } from '@/store/useAuthStore'
 import { getProfileImgUrl } from '@/api/profileImgApi'
 import { useBookmarkStore } from '@/store/useBookmarkStore'
-import { sortReviewDataByDate } from '@/utils/sortReviewDataByDate'
 import { ottIcon } from '@/utils/ottIconData'
 import defaultOtt from '@/assets/ottIcon/defaultOtt.svg'
 
@@ -37,8 +36,6 @@ type LikeIconProps = {
 /* -------------------------------------------------------------------------- */
 
 function FeedComponent({ reviews }: { reviews: ReviewData[] }) {
-  console.log('reviews: ', reviews)
-
   const { $darkMode } = useThemeStore()
   const { bookmarkList, setBookmarkList, deleteBookmarkList } =
     useBookmarkStore()
@@ -46,6 +43,7 @@ function FeedComponent({ reviews }: { reviews: ReviewData[] }) {
   const feedContentSectionRef = useRef<HTMLDivElement>(null)
 
   const [usersId, setUsersId] = useState<string[]>([])
+
   const [isLiked, setIsLiked] = useState<boolean>(false)
   const [myLikesId, setMyLikesId] = useState<number[]>([])
   const [isLikeReviews, setIsLikReviews] = useState<IsLikedProps[] | null>([])
@@ -59,33 +57,11 @@ function FeedComponent({ reviews }: { reviews: ReviewData[] }) {
   const navigate = useNavigate()
   const isAuthenticated = useAuthStore(state => state.isAuthenticated)
 
-  //# 전체 리뷰 가져오기
   useEffect(() => {
-    const sortedReviewData = sortReviewDataByDate(reviews)
+    setUsersId(reviews.map(data => data.user_id))
+  }, [reviews])
 
-    // 내가 누른 좋아요
-    const myLikes: IsLikedProps[] = sortedReviewData
-      .map(item => ({
-        id: item.id,
-        likes: item.likes
-      }))
-      .filter(entry => {
-        const likesArray = entry.likes || []
-        const loginUserIdLiked = likesArray.includes(loginUserId as string)
-        return (
-          entry.likes !== null && Array.isArray(entry.likes) && loginUserIdLiked
-        )
-      })
-
-    setIsLikReviews(myLikes)
-
-    const myLikesIdArray = myLikes.map(item => item.id)
-    setMyLikesId(myLikesIdArray)
-
-    const usersId = sortedReviewData.map(data => data.user_id)
-    setUsersId(usersId)
-  }, [isLiked])
-
+  //# 프로필 이미지
   const fetchAndRenderProfileImg = async () => {
     if (loginUserId && usersId.length > 0) {
       try {
@@ -113,6 +89,27 @@ function FeedComponent({ reviews }: { reviews: ReviewData[] }) {
   useEffect(() => {
     fetchAndRenderProfileImg()
   }, [loginUserId, usersId])
+
+  //# 내가 누른 좋아요
+  useEffect(() => {
+    const myLikes: IsLikedProps[] = reviews
+      .map(item => ({
+        id: item.id,
+        likes: item.likes
+      }))
+      .filter(entry => {
+        const likesArray = entry.likes || []
+        const loginUserIdLiked = likesArray.includes(loginUserId as string)
+        return (
+          entry.likes !== null && Array.isArray(entry.likes) && loginUserIdLiked
+        )
+      })
+
+    setIsLikReviews(myLikes)
+
+    const myLikesIdArray = myLikes.map(item => item.id)
+    setMyLikesId(myLikesIdArray)
+  }, [isLiked])
 
   //# 좋아요
   const handleLikes = async (item: ReviewsProps, loginUserId: string) => {
@@ -186,6 +183,8 @@ function FeedComponent({ reviews }: { reviews: ReviewData[] }) {
                       : userImage
                   }
                   alt="프로필 이미지"
+                  $darkMode={$darkMode}
+                  $shouldInvert={!renderProfile[item.user_id]?.imgSrc}
                 />
                 <TextColor $darkMode={$darkMode}>{item.nickname}</TextColor>
               </CommonDivWrapper>
@@ -292,12 +291,17 @@ const CommonDivWrapper = styled.div<PaddingProps>`
   margin: auto 0 auto 0;
 `
 
-const UserImage = styled.img`
+const UserImage = styled.img<{
+  $darkMode: boolean
+  $shouldInvert: boolean
+}>`
   height: 36px;
   width: 36px;
   object-fit: cover;
   border-radius: 50%;
   border: 1px solid #dedede;
+  filter: ${({ $darkMode, $shouldInvert }) =>
+    $shouldInvert && $darkMode ? 'invert(1)' : 'none'};
 `
 const TextColor = styled.span<TextColorProps>`
   color: ${({ $darkMode }) => ($darkMode ? '#E0E0E0' : '#444444')};

@@ -103,9 +103,3 @@ const NoDataNotice = styled.div`
   align-items: center;
   height: 50%;
 `
-
-const FlowWrapper = styled.div`
-  max-width: 100%;
-  border-bottom: 0.5px solid #999999;
-  border-top: 0.5px solid #999999;
-`
