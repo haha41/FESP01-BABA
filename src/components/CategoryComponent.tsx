@@ -136,11 +136,11 @@ function CategoryComponent() {
             spaceBetween: 0
           },
           768: {
-            slidesPerView: 9,
+            slidesPerView: 8,
             spaceBetween: 0
           },
           1020: {
-            slidesPerView: 8,
+            slidesPerView: 9,
             spaceBetween: 0
           },
           1280: {

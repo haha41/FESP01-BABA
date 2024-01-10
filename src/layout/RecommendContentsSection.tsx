@@ -11,6 +11,7 @@ import 'swiper/css/pagination'
 import 'swiper/css/scrollbar'
 import starIcon from '@/assets/StarIcon.svg'
 import { usePopularDataStore } from '@/store/usePopularDataStore'
+import { Link } from 'react-router-dom'
 
 interface SectionHeaderWidth {
   width?: string
@@ -60,10 +61,10 @@ function RecommendContentsSection() {
             slidesPerView: 6
           },
           768: {
-            slidesPerView: 8
+            slidesPerView: 7
           },
           1020: {
-            slidesPerView: 7
+            slidesPerView: 8
           },
           1280: {
             slidesPerView: 10
@@ -72,7 +73,7 @@ function RecommendContentsSection() {
       >
         {populardata?.results.map(item => (
           <SwiperSlideWrapper key={item.id}>
-            <HoverWrapper href="">
+            <HoverWrapper to={`/info/${item.id}`}>
               <RecommendImage
                 src={`https://image.tmdb.org/t/p/original${item.poster_path}`}
                 alt={`${item.title} 포스터`}
@@ -163,7 +164,7 @@ const RecommendContent = styled.div`
   display: flex;
   flex-direction: column;
 `
-const HoverWrapper = styled.a`
+const HoverWrapper = styled(Link)`
   display: flex;
   justify-content: center;
   &:hover {
