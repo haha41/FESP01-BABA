@@ -10,6 +10,7 @@ import 'swiper/css/scrollbar'
 import { movieGenres, tvGenres } from '@/utils/genresData'
 import { useGenresStore } from '@/store/useGenresStore'
 import { motion } from 'framer-motion'
+import { dramaCategories, movieCategories } from '@/utils/categoriesData'
 
 export interface FontProps {
   fontSize?: string
@@ -27,63 +28,30 @@ export interface DarkModeSelectProps
   $darkMode?: boolean
 }
 
-const movieCategories = [
-  { color: '#8ee7e7', text: '전체' },
-  { color: '#F56A1E', text: '액션' },
-  { color: '#FFE100', text: '모험' },
-  { color: '#3FD6A6', text: '애니메이션', fontSize: '11px' },
-  { color: '#FF99AF', text: '코미디' },
-  { color: '#DF461F', text: '범죄' },
-  { color: '#496BF2', text: '다큐' },
-  { color: '#77B1B9', text: '드라마' },
-  { color: '#CEE319', text: '가족' },
-  { color: '#69A7E7', text: '판타지' },
-  { color: '#7B5F48', text: '역사' },
-  { color: '#AD2625', text: '공포' },
-  { color: '#A28CB7', text: '음악' },
-  { color: '#177649', text: '미스터리' },
-  { color: '#F4D6D4', text: '로맨스' },
-  { color: '#513582', text: 'SF' },
-  { color: '#F5E2A7', text: 'TV 영화', fontSize: '11px' },
-  { color: '#F03F36', text: '스릴러' },
-  { color: '#015097', text: '전쟁' },
-  { color: '#857b15', text: '서부' }
-]
-const dramaCategories = [
-  { color: '#8ee7e7', text: '전체' },
-  { color: '#F56A1E', text: '액션&어드벤쳐', fontSize: '11px' },
-  { color: '#3FD6A6', text: '애니메이션', fontSize: '12px' },
-  { color: '#FF99AF', text: '코미디' },
-  { color: '#DF461F', text: '범죄' },
-  { color: '#496BF2', text: '다큐' },
-  { color: '#77B1B9', text: '드라마' },
-  { color: '#CEE319', text: '가족' },
-  { color: '#69A7E7', text: '키즈' },
-  { color: '#177649', text: '미스터리' },
-  { color: '#F4D6D4', text: '뉴스' },
-  { color: '#513582', text: '리얼리티' },
-  { color: '#F5E2A7', text: '판타지' },
-  { color: '#F03F36', text: '오페라' },
-  { color: '#015097', text: '토크' },
-  { color: '#015097', text: '전쟁&정치' },
-  { color: '#857b15', text: '서부' }
-]
-
 function CategoryComponent() {
   const { $darkMode } = useThemeStore()
   const [selectCategory, setSelectCategory] = useState('영화')
-  const { movieGenresState, setMovieGenresState } = useGenresStore()
+  const {
+    movieGenresState,
+    tvGenresState,
+    setMovieGenresState,
+    setTvGenresState
+  } = useGenresStore()
   // const [circleButton, setCircleButton] = useState()
+
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const select = e.currentTarget.value
-
     setSelectCategory(select)
   }
 
   const handleFilterCategory = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
-    const selectCategoryButton = e.currentTarget.nextElementSibling?.textContent
+    const selectCategoryButton =
+      e.currentTarget.value === '영화'
+        ? e.currentTarget.nextElementSibling?.textContent
+        : e.currentTarget.children[1]?.textContent
+
     // const targetCircleButton = e.currentTarget.querySelector('div')
 
     if (selectCategory === '영화') {
@@ -97,11 +65,11 @@ function CategoryComponent() {
         item => item.name === selectCategoryButton
       )
 
-      setMovieGenresState(filterCategory)
+      setTvGenresState(filterCategory)
     }
   }
 
-  useEffect(() => {}, [movieGenresState])
+  useEffect(() => {}, [movieGenresState, tvGenresState])
 
   return (
     <CategorySection>

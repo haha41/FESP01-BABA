@@ -5,10 +5,17 @@ interface GenreDataState {
     id: number
     name: string
   }[]
-  setMovieGenresState: (data: { id: number; name: string }[]) => void
+  tvGenresState: {
+    id: number
+    name: string
+  }[]
+  setMovieGenresState: (data: { id: number; name: string }[]) => void // => void : 반환 X
+  setTvGenresState: (data: { id: number; name: string }[]) => void
 }
 
 export const useGenresStore = create<GenreDataState>(set => ({
   movieGenresState: [],
-  setMovieGenresState: data => set({ movieGenresState: data })
+  tvGenresState: [],
+  setMovieGenresState: data => set({ movieGenresState: data }),
+  setTvGenresState: data => set({ tvGenresState: data })
 }))

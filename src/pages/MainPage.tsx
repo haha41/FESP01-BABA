@@ -9,8 +9,10 @@ import GoingUpBtn from '@/components/GoingUpBtn'
 
 function Main() {
   const [, setWindowWidth] = useState(window.innerWidth)
-  const { movieGenresState } = useGenresStore()
+  const { movieGenresState, tvGenresState } = useGenresStore()
   const movieGenresStateId = movieGenresState[0]?.id
+
+  const tvGenresStateId = tvGenresState[0]?.id
   const [reviews, setReviews] = useState<ReviewData[]>([])
 
   useEffect(() => {
@@ -37,7 +39,18 @@ function Main() {
           }
 
           reviewData = genreReviewData
-        } else if (movieGenresStateId === undefined) {
+        } else if (tvGenresStateId) {
+          const genreReviewData = await getGenreReviewData(tvGenresStateId)
+
+          if (!genreReviewData) {
+            throw new Error('해당 카테고리의 리뷰가 없습니다.')
+          }
+
+          reviewData = genreReviewData
+        } else if (
+          movieGenresStateId === undefined &&
+          tvGenresStateId === undefined
+        ) {
           const getAllReviewData = await getReviewData()
           if (!getAllReviewData) {
             throw new Error('리뷰 데이터를 불러올 수 없습니다.')
@@ -52,10 +65,11 @@ function Main() {
         return null
       }
     }
+
     loadReviewData()
 
     window.scrollTo(0, 0)
-  }, [movieGenresState])
+  }, [movieGenresState, tvGenresState])
 
   return (
     <>
