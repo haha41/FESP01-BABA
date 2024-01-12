@@ -69,9 +69,10 @@ const Btn = styled.button`
   }
 
   @media (min-width: 701px) and (max-width: 1024px) {
-    right: 60px;
+    right: 30px;
   }
   @media (min-width: 1025px) {
-    right: 360px;
+    right: 30px;
+    z-index: 10;
   }
 `
