@@ -11,7 +11,6 @@ function Main() {
   const [, setWindowWidth] = useState(window.innerWidth)
   const { movieGenresState, tvGenresState } = useGenresStore()
   const movieGenresStateId = movieGenresState[0]?.id
-
   const tvGenresStateId = tvGenresState[0]?.id
   const [reviews, setReviews] = useState<ReviewData[]>([])
 
@@ -78,7 +77,8 @@ function Main() {
         <CategoryComponent />
         {window.innerWidth < 1030 ? <RecommendContentsSection /> : ''}
 
-        {movieGenresStateId === undefined || reviews.length > 0 ? (
+        {(movieGenresStateId === undefined && tvGenresStateId === undefined) ||
+        reviews.length > 0 ? (
           <FeedComponent reviews={reviews} />
         ) : (
           <NoDataNotice>

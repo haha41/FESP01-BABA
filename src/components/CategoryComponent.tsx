@@ -31,12 +31,14 @@ export interface DarkModeSelectProps
 function CategoryComponent() {
   const { $darkMode } = useThemeStore()
   const [selectCategory, setSelectCategory] = useState('영화')
+
   const {
     movieGenresState,
     tvGenresState,
     setMovieGenresState,
     setTvGenresState
   } = useGenresStore()
+
   // const [circleButton, setCircleButton] = useState()
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -48,7 +50,7 @@ function CategoryComponent() {
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     const selectCategoryButton =
-      e.currentTarget.value === '영화'
+      selectCategory === '영화'
         ? e.currentTarget.nextElementSibling?.textContent
         : e.currentTarget.children[1]?.textContent
 
@@ -58,13 +60,13 @@ function CategoryComponent() {
       const filterCategory = movieGenres.genres.filter(
         item => item.name === selectCategoryButton
       )
-
+      setTvGenresState([])
       setMovieGenresState(filterCategory)
     } else {
       const filterCategory = tvGenres.genres.filter(
         item => item.name === selectCategoryButton
       )
-
+      setMovieGenresState([])
       setTvGenresState(filterCategory)
     }
   }
