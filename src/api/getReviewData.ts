@@ -99,7 +99,7 @@ export const getGenreReviewData = async (
     .from('reviews')
     .select()
     .order('created_at', { ascending: false })
-    .or(`genre_ids.cs.${genreId}`)
+    .or(`genre_ids.cs.${genreId}`) // cs : contains, genre_ids 배열에 genreId가 있으면 해당 값을 검색
 
   if (data) {
     return data

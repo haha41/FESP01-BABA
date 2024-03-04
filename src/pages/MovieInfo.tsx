@@ -23,7 +23,7 @@ function MovieInfo() {
   const { $darkMode } = useThemeStore()
 
   const [reviewData, setReviewData] = useState<any[] | null>(null)
-  console.log('reviewData: ', reviewData)
+  // console.log('reviewData: ', reviewData)
 
   const [nicknames, setNicknames] = useState<any[] | null | undefined>(null)
   const [movieinfoData, setMovieInfoData] = useState<MovieInfo | null>(null)

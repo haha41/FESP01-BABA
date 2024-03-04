@@ -55,12 +55,12 @@ interface ReviewsProps {
 }
 interface ReviewData {
   created_at: string
-  default_img: string | null // 추가
-  genre_ids: number[] // 추가
+  default_img: string | null
+  genre_ids: number[]
   id: number
   img_url: string | null
-  // likes: string // 추가
-  likes: string[] // 추가
+  // likes: string
+  likes: string[]
   movie_id: string
   movie_title: string
   nickname: string

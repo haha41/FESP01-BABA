@@ -26,6 +26,7 @@ interface PaddingProps {
 
 interface TextColorProps {
   $darkMode: boolean
+  showAll?: boolean
 }
 
 type LikeIconProps = {
@@ -167,6 +168,12 @@ function FeedComponent({ reviews }: { reviews: ReviewData[] }) {
     setIsLiked(prevState => !prevState)
   }
 
+  const [showAll, setShowAll] = useState(false)
+
+  const handleToggleShowAll = () => {
+    setShowAll(!showAll)
+  }
+
   return (
     <FeedSection>
       <FeedContent ref={feedContentSectionRef}>
@@ -236,7 +243,23 @@ function FeedComponent({ reviews }: { reviews: ReviewData[] }) {
                   )}
                 </CommonDivWrapper>
               </ContentTitleWrapper>
-              <ContentText $darkMode={$darkMode}>{item.text}</ContentText>
+              <ContentText $darkMode={$darkMode} showAll={showAll}>
+                {item.text}
+              </ContentText>
+              {/* {!showAll && (
+                <ViewMore $darkMode={$darkMode} onClick={handleToggleShowAll}>
+                  &gt; 더보기
+                </ViewMore>
+              )} */}
+              {!showAll ? (
+                <ViewMore $darkMode={$darkMode} onClick={handleToggleShowAll}>
+                  &gt; 더보기
+                </ViewMore>
+              ) : (
+                <ViewMore $darkMode={$darkMode} onClick={handleToggleShowAll}>
+                  &gt; 줄이기
+                </ViewMore>
+              )}
               <CreateDate
                 fontSize="12px"
                 fontWeight="300"
@@ -331,10 +354,25 @@ const ContentTitle = styled.span`
   vertical-align: text-bottom;
 `
 const ContentText = styled.p<TextColorProps>`
-  text-align: left;
+  text-align: justify;
   color: ${({ $darkMode }) => ($darkMode ? '#E0E0E0' : '#444444')};
   margin: 0;
   font-size: 14px;
+  overflow: hidden;
+  white-space: normal;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: ${({ showAll }) => (showAll ? 'unset' : 3)};
+  transition: -webkit-line-clamp 0.5s ease-in-out; /* Add transition for smooth animation */
+`
+
+const ViewMore = styled.div<TextColorProps>`
+  font-size: 12px;
+  color: ${({ $darkMode }) => ($darkMode ? '#E0E0E0' : '#777777')};
+  padding-top: 8px;
+  cursor: pointer;
 `
 const ContentTitleWrapper = styled(CommonDivWrapper)`
   justify-content: space-between;
